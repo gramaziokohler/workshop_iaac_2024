@@ -7,6 +7,7 @@ Before you begin the installation of the tools required for this course, make su
 * Rhino 7: https://www.rhino3d.com/download
 * VS Code (free): https://code.visualstudio.com/
 * GIT (free): https://git-scm.com/
+* Docker Desktop: https://www.docker.com/products/docker-desktop 
 
 > NOTE: On Mac, GIT is usually pre-installed, you do not need to install again. To check if it is installed, open a terminal window and type `git`, if the result does not indicate any error, it means you already have it in your system.
 
@@ -16,7 +17,7 @@ Once that is done, follow the step-by-step instructions below.
 
 **Windows Users**
 
-* Download the installer: https://dfab.link/compas_fs24/installer.zip
+* Download the installer: https://dfab.link/ws_iaac_2024/installer.zip
 * Extract it! (**DO NOT RUN THE NEXT STEP FROM WITHIN THE ZIP FILE**)
 * Run the installer by double-clicking the file `win_install.cmd`
 
@@ -24,7 +25,7 @@ Once that is done, follow the step-by-step instructions below.
 
 On Mac, it's not necessary to download the installer. Instead, open the **Terminal** application of your mac, copy & paste the following command, and press Enter:
 ```bash
-  curl -s https://dfab.link/compas_fs24/mac_install.bash | bash
+  curl -s https://dfab.link/ws_iaac_2024/mac_install.bash | bash
 ```
 
 **Troubleshooting**

@@ -12,7 +12,7 @@ for /f "usebackq tokens=4" %%i in (`chcp`) do (
 )
 
 SET CONDA_PATH=%UserProfile%\Miniconda3
-SET CONDA_ENV_NAME=compas_fs24
+SET CONDA_ENV_NAME=ws_iaac_2024
 
 REM Switch code page, so that we can print extended ASCII
 CHCP 65001 >nul
@@ -62,7 +62,7 @@ IF %ERRORLEVEL%==0 (
 ECHO.
 
 <nul set /p"=[ ] Creating virtual environment..."
-CALL "%CONDA_COMMAND%" create -c conda-forge -n %CONDA_ENV_NAME% compas compas_fab compas_eve python=3.10 -y >nul 2>&1
+CALL "%CONDA_COMMAND%" create -c conda-forge -n %CONDA_ENV_NAME% compas compas_fab=0.28 compas_eve opencv python=3.10 -y >nul 2>&1
 <nul set /p"=!BS!!CR![√] Created virtual environment '%CONDA_ENV_NAME%' successfully"
 ECHO.
 

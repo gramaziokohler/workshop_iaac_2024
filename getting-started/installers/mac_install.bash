@@ -2,7 +2,7 @@
 
 CONDA_HOME=$HOME/miniconda
 CONDA_BIN=$CONDA_HOME/condabin
-CONDA_ENV_NAME=compas_fs24
+CONDA_ENV_NAME=ws_iaac_2024
 
 if ! command -V conda &> /dev/null
 then
@@ -20,7 +20,7 @@ else
 fi
 
 echo "Creating virtual environment…"
-conda create -c conda-forge -n $CONDA_ENV_NAME compas compas_fab compas_eve cmake boost python=3.10 -y &> /dev/null
+conda create -c conda-forge -n $CONDA_ENV_NAME compas compas_fab=0.28 compas_eve cmake boost opencv python=3.10 -y &> /dev/null
 echo "Creating virtual environment…Done"
 
 echo "Activating virtual environment…"
