@@ -14,11 +14,14 @@ services:
       - ros-core
       # To use the web-based GUI, uncomment the following line
       # - gui
+    volumes:
+      - ./ur10e_iaac_support:/root/catkin_ws/src/ur10e_iaac_support
+      - ./ur10e_iaac_moveit_config:/root/catkin_ws/src/ur10e_iaac_moveit_config
     command:
       - roslaunch
       - --wait
       # To change the robot, select the corresponding package name here, eg. `ur5e_moveit_config`
-      - ur10e_moveit_config
+      - ur10e_iaac_moveit_config
       - demo.launch
       # To launch the RVIZ GUI, change the following to true and activate one of the two GUI options above
       - use_rviz:=false
@@ -55,6 +58,9 @@ services:
       - ROS_MASTER_URI=http://ros-core:11311
     depends_on:
       - ros-core
+    volumes:
+      - ./ur10e_iaac_support:/root/catkin_ws/src/ur10e_iaac_support
+      - ./ur10e_iaac_moveit_config:/root/catkin_ws/src/ur10e_iaac_moveit_config
     command:
       - roslaunch
       - --wait
