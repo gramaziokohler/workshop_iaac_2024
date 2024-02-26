@@ -35,4 +35,4 @@ class RoundTileArtist(GHArtist):
 
         plane = frame_to_rhino(self.round_tile.base_frame)
         rhino_circle = rg.Circle(plane, (self.round_tile.diameter / 2))
-        return rg.Cylinder(rhino_circle, self.round_tile.thickness)
+        return rg.Cylinder(rhino_circle, self.round_tile.thickness).ToBrep(True, True)
