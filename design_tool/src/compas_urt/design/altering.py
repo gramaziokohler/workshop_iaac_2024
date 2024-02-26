@@ -49,16 +49,17 @@ class ImageLayer(AltLayer):
             neighbor = kdtree.nearest_neighbor((u, v, 0))
             uv_param, color_quad_index, param_distance = neighbor
             color_quad = sorted_color_quads[color_quad_index]
-            if available_colors:
-                existing_color = color_quad["color"]
-                closest_color, closest_color_index, closest_color_dist = kdtree_color.nearest_neighbor(
-                    (existing_color.r, existing_color.g, existing_color.b, existing_color.a)
-                )
-                closest_color = Color(*closest_color)
-                tile.color = closest_color
-                tile.tag = closest_color_index
-            else:
-                tile.color = color_quad["color"]
+            if "color" in color_quad:
+                if available_colors:
+                    existing_color = color_quad["color"]
+                    closest_color, closest_color_index, closest_color_dist = kdtree_color.nearest_neighbor(
+                        (existing_color.r, existing_color.g, existing_color.b, existing_color.a)
+                    )
+                    closest_color = Color(*closest_color)
+                    tile.color = closest_color
+                    tile.tag = closest_color_index
+                else:
+                    tile.color = color_quad["color"]
 
     def uv_sorting(self, quad):
         u = quad["u_domain"][0]
