@@ -5,13 +5,7 @@ from compas.plugins import pluggable
 from compas.plugins import plugin
 
 
-@pluggable(category="design")
 def load_image(image_path):
-    raise Exception("No implementation available for load_image. Make sure the system is loading plugins correctly.")
-
-
-@plugin(pluggable_name="load_image", category="design", requires=["Rhino"])
-def _load_image_with_dotnet(image_path):
     from System.Drawing import Bitmap
 
     pixels = {}
