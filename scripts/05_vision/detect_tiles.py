@@ -30,7 +30,7 @@ from calibration import OpenCVCalibrationData
 
 LOG = logging.getLogger(__name__)
 
-CALIBRATION_DATA = r"data\calibration\calib_result_20230412-145113.dat"
+CALIBRATION_DATA = r"C:\Users\gcasas\eth\Workshops\workshop_iaac_2024\scripts\05_vision\calibration_data\calib_result_20240227-152441.dat"
 
 # pre-measured corners of the QR code in world space.
 # NOTE: order matters. first point is top left, then clockwise.
@@ -72,7 +72,7 @@ class ContourFinder(Thread):
         self.device.set(cv.CAP_PROP_FPS, 30)
         self.device.set(cv.CAP_PROP_EXPOSURE, 0.1)
 
-        # self.c_data = OpenCVCalibrationData.from_file(CALIBRATION_DATA)
+        self.c_data = OpenCVCalibrationData.from_file(CALIBRATION_DATA)
         self.qr_detector = cv.QRCodeDetector()
         self.h_mat = None
         self.scaling_factor = None
