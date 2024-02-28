@@ -75,6 +75,31 @@ def stop_teach_mode(ip="127.0.0.1"):
     ur_c.endTeachMode()
 
 
+def move_until_contact(
+    xd=[0.0, 0.0, -0.03, 0.0, 0.0, 0.0], direction=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], acceleration=0.1, ip="127.0.0.1"
+):
+    """Move until contact force is reached.
+
+    Args:
+        xd (list[float]): tool speed [m/s] (spatial vector)
+        direction (list[float]): List of six floats. The first three elements are interpreted as a 3D vector (in the robot base coordinate system)
+                                 giving the direction in which contacts should be detected. If all elements of the list are zero, contacts from all
+                                 directions are considered. You can also set direction=get_target_tcp_speed() in which case it will detect contacts
+                                 in the direction of the TCP movement.
+        acceleration (float): tool position acceleration [m/s^2].
+        ip (str, optional): Robot IP address. Defaults to "127.0.0.1".
+    """
+    ur_c = RTDEControl(ip)
+    contacted = ur_c.moveUntilContact(
+        xd=xd,
+        direction=direction,
+        acceleration=acceleration,
+    )
+
+    if not contacted:
+        raise Exception("Not found contact!")
+
+
 if __name__ == "__main__":
     ip = "192.168.56.101"
     frame = get_tcp_frame(ip)
