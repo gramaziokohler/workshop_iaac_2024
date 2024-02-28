@@ -9,20 +9,20 @@ from scipy.spatial import distance
 FOLDER = os.path.dirname(__file__)
 
 # Define region of interest
-MIN_X = 330
-MAX_X = 600
-MIN_Y = 0
-MAX_Y = 400
-IMAGE_SOURCE = "file"  # "camera" to get video real time, or "file" for testing with captured image frames
+MIN_X = 229
+MAX_X = 1086
+MIN_Y = 131
+MAX_Y = 551
+IMAGE_SOURCE = "camera"  # "camera" to get video real time, or "file" for testing with captured image frames
 CAMERA_DEVICE_NUMBER = 1  # 0 for built-in camera, 1 for external camera
-QR_WIDTH_M = 0.11  # QR Code width 11cm
+QR_DIAGONAL_M = 0.63  # QR Code width 63cm
 QR_REAL_WORLD_POINTS = (
     np.array(  # Define corresponding points in real-world coordinates. These were measured with the robot.
         [
-            [-0.4148, 0.2674],  # 0
-            [-0.4129, 0.1621],  # 1
-            [-0.5187, 0.1569],  # 2
-            [-0.5223, 0.2648],  # 3
+            [-0.3584, 0.2853],  # 1st point, QR Text="4", 4th QR,  index=0   # index 12 [12-15]
+            [-0.3550, -0.2996],  # 2nd point, QR Text="1", 1st QR, index=1   # index 1 [0-3]
+            [-0.5928, -0.3000],  # 3rd point, QR Text="3", 2nd QR, index=2   # index 6 [4-7]
+            [-0.5965, 0.2847],  # 4th point, QR Text="2", 3rd QR,  index=3   # index 11 [8-11]
         ],
         dtype="float32",
     )
@@ -44,7 +44,7 @@ if IMAGE_SOURCE == "camera":
             yield device.read()[1]
 
 else:
-    images = glob.glob(os.path.join(FOLDER, "frames", "*.png"))
+    images = glob.glob(os.path.join(FOLDER, "qr", "*.png"))
 
     def get_image_frames():
         for fname in images:
@@ -73,13 +73,22 @@ for img in get_image_frames():
 
     # Step 1: Detect QR Code corners in the image
     qr_detector = cv2.QRCodeDetector()
-    ret_qr, image_points = qr_detector.detect(img)
+    ret, decodedTexts, image_points, _ = qr_detector.detectAndDecodeMulti(img)
     image_points = image_points.reshape(-1, 2)
-    pixel_dist = distance.euclidean(image_points[0], image_points[3])
-    scaling_factor = pixel_dist / QR_WIDTH_M
+    qr_data = {}
+    for qr_index, text in enumerate(decodedTexts):
+        qr_data[text] = image_points[qr_index * 4 : (qr_index + 1) * 4, :]
+    if sorted(decodedTexts) != ["1", "2", "3", "4"]:
+        # Some QR codes failed to detect, skip frame
+        print("Skipping frame, QR codes not detected")
+        continue
+
+    pixel_dist = distance.euclidean(qr_data["3"][2], qr_data["4"][0])
+    scaling_factor = pixel_dist / QR_DIAGONAL_M
+    new_image_points = np.array([qr_data["4"][0], qr_data["1"][1], qr_data["3"][2], qr_data["2"][3]])
 
     # Step 2: Compute the Homography Matrix
-    H, _ = cv2.findHomography(image_points, QR_REAL_WORLD_POINTS)
+    H, _ = cv2.findHomography(new_image_points, QR_REAL_WORLD_POINTS)
 
     # Step 3: Find circles in the image (within region of interest defined by MIN_X, MAX_X, MIN_Y, MAX_Y)
     start_row, end_row, start_col, end_col = MIN_X, MAX_X, MIN_Y, MAX_Y
@@ -127,7 +136,7 @@ for img in get_image_frames():
         _circle_center, circle_radius = circle
         diameter_m = circle_radius * 2.0 / scaling_factor
 
-        text = f"({real_world_point[0][0]:.2f}, {real_world_point[0][1]:.2f}, diameter: {diameter_m:.2f})"
+        text = f"({real_world_point[0][0]*1000:.3f}, {real_world_point[0][1]*1000:.3f})"
         cv2.putText(img, text, (int(centroid[0]), int(centroid[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         print("Detected tile. Real World coords:", real_world_point)
 
@@ -136,7 +145,7 @@ for img in get_image_frames():
         topic.publish(message)
 
     cv2.imshow("Tile detection", img)
-    key = cv2.waitKey(3000)
+    key = cv2.waitKey(3000000)
     if key == 27:
         cv2.destroyAllWindows()
         break
