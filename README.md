@@ -49,7 +49,7 @@ The materials of this workshop are licensed under the [MIT License](LICENSE). If
 
 This workshop is based on the following prior work:
 
-- _Aikaterini Toumpetski, Nikolaos Maslarinos_. Non-planar Upcycled Robotic Tiling. ETH Zürich, MAS 2021/22 Thesis Project, October, 2022.  https://www.masdfab.arch.ethz.ch/2021-22-t3-work
+- _Aikaterini Toumpetski, Nikolaos Maslarinos_. Non-planar Upcycled Robotic Tiling. ETH Zürich, MAS 2021/22 Thesis Project, October, 2022. https://masdfab.arch.ethz.ch/projects/2021-22/thesis-projects.html
 - _Tom van Mele, et al._, COMPAS: A framework for computational research in architecture and structures, http://compas.dev (2017-2024). doi:10.5281/zenodo.2594510. URL https://doi.org/10.5281/zenodo.2594510 
 - _Gonzalo Casas et al._, COMPAS FAB: Robotic fabrication package for the compas framework, https://github.com/compas-dev/compas fab,  Gramazio Kohler Research, ETH Zurich (2018-2023).  doi:10.5281/zenodo.3469478. URL https://doi.org/10.5281/zenodo.3469478 
 - _Angel Muñoz, Alexandre Dubor_. Workshop 2.1: Mosaic // Sharp edge. IAAC Blog. February, 2021. https://www.iaacblog.com/programs/workshop-2-1-mosaic-sharp-edge
